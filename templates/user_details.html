@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+<!-- content -->
+{% block content %}
+<div id="userContainer">
+  <img src="{{user.img_url}}" alt="" />
+  <h1>{{user.first_name}} {{user.last_name}}</h1>
+  <form action="/users/{{user.id}}/edit">
+    <button id="edit_button">Edit</button>
+  </form>
+  <form action="/users/{{user.id}}/delete" method="post">
+    <button id="delete_button">Delete</button>
+  </form>
+</div>
+
+<div id="all_user_anchor_container">
+  <a href="/users">all users</a>
+</div>
+{% endblock %}
