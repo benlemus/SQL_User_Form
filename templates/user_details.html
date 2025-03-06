@@ -4,7 +4,7 @@
 {% block content %}
 <div id="userContainer">
   <img src="{{user.img_url}}" alt="" />
-  <h1>{{user.first_name}} {{user.last_name}}</h1>
+  <h1>{{user.full_name}}</h1>
   <form action="/users/{{user.id}}/edit">
     <button id="edit_button">Edit</button>
   </form>

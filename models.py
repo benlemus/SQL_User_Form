@@ -20,3 +20,11 @@ class User(db.Model):
     last_name = db.Column(db.String(20), nullable=False, unique=True)
 
     img_url = db.Column(db.Text, nullable=True)
+
+    @classmethod
+    def order_by_name(self):
+        return User.query.order_by(User.last_name, User.first_name).all()
+
+    @property
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
