@@ -20,7 +20,3 @@ class User(db.Model):
     last_name = db.Column(db.String(20), nullable=False, unique=True)
 
     img_url = db.Column(db.Text, nullable=True)
-
-    # default='https://cdn-icons-png.flaticon.com/512/6522/6522516.png'
-
-
