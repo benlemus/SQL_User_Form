@@ -4,7 +4,7 @@ from models import db, User
 from app import app
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly_db_test'
-app.config['SQLALCHEMY_ECHO'] = True
+# app.config['SQLALCHEMY_ECHO'] = True
 
 
 with app.app_context():
@@ -56,5 +56,11 @@ class FlaskTestCase(TestCase):
             self.assertIn(data['first_name'], html)
 
     def test_delete_user(self):
-        # TODO
-        pass
+        with app.test_client() as client:
+            res = client.post(f'/users/{self.user_id}/delete', follow_redirects=True)
+            html = res.get_data(as_text=True)
+
+            self.assertEqual(res.status_code, 200)     
+            self.assertNotIn(self.user.last_name, html)
+
+
