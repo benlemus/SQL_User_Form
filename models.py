@@ -28,3 +28,22 @@ class User(db.Model):
     @property
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
+
+# post model
+
+class Post(db.Model):
+    '''model for posts'''
+    __tablename__ = 'posts'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
+    title = db.Column(db.String(20), nullable=False, unique=True)
+
+    content = db.Column(db.Text)
+
+    # db.Time? timestamp?
+    created_at = db.Column(db.Text)
+
+    # references user id
+    user_id = db.Column(db.Integer, unique=True)
+

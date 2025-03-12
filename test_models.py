@@ -4,7 +4,7 @@ from models import db, User
 from app import app
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly_db_test'
-app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_ECHO'] = False
 
 
 with app.app_context():
