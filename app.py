@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, render_template, redirect, request
-from models import db, connect_db, User
+from models import db, connect_db, User, Post
 
 app = Flask(__name__)
 
@@ -27,6 +27,7 @@ def list_users():
     users = User.order_by_name()
     return render_template('users.html', users=users)
 
+# TODO: SHOW POSTS(ANCHORS)
 @app.route('/users/<int:user_id>')
 def user_details(user_id):
     currentUser = User.query.get_or_404(user_id)
@@ -71,4 +72,29 @@ def edit_user_confirm(user_id):
     db.session.commit()
 
     return redirect(f'/users/{user_id}')
+
+@app.route('/user/<int:user_id>/posts/new')
+def new_post(user_id):
+    return render_template('add_post.html', user_id=user_id)
+
+@app.route('/user/<int:user_id>/posts/new', methods=['POST'])
+def handle_form(user_id):
+    if request.method == 'POST':
+        post_title = request.form['title']
+        post_content = request.form['content']
+        
+        # title, content, user_id
+        new_post = Post(title=post_title, content=post_content, user_id=user_id)
+        db.session.add(new_post)
+        db.session.commit()
+
+        return redirect(f'/posts/{new_post.id}')
+    return redirect(f'/users/{user_id}')
+
+@app.route('/posts/<int:post_id>')
+def post_details(post_id):
+    cur_post = Post.query.get_or_404(post_id)
+    cur_user = User.query.get_or_404(cur_post.user_id)
+    return render_template('post_details.html', post=cur_post, user=cur_user)
+
 

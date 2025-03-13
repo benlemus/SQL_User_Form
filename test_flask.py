@@ -1,11 +1,11 @@
 from unittest import TestCase
+from flask import Flask
 
 from models import db, User
 from app import app
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly_db_test'
 app.config['SQLALCHEMY_ECHO'] = False
-
 
 with app.app_context():
     db.drop_all()
@@ -14,6 +14,7 @@ with app.app_context():
 class FlaskTestCase(TestCase):
     def setUp(self):
         with app.app_context():
+            db.session.rollback()
             User.query.delete()
             db.session.commit()
 

@@ -20,3 +20,5 @@ with app.app_context():
     db.session.add(mojo)
     db.session.add(kori)
     db.session.commit()
+
+    post1 = Post()

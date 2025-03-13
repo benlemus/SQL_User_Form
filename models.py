@@ -1,14 +1,11 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 db = SQLAlchemy()
 
 def connect_db(app):
     db.app = app
     db.init_app(app)
-
-    with app.app_context():
-        db.create_all()
-
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -41,9 +38,8 @@ class Post(db.Model):
 
     content = db.Column(db.Text)
 
-    # db.Time? timestamp?
-    created_at = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.now)
 
-    # references user id
-    user_id = db.Column(db.Integer, unique=True)
-
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    
+    user = db.relationship('User', backref='posts')
