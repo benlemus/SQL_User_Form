@@ -5,6 +5,7 @@ with app.app_context():
     db.drop_all()
     db.create_all()
     User.query.delete()
+    Post.query.delete()
 
     milo = User(first_name='Milo', last_name='Taylor', img_url='https://i0.wp.com/jimcoda.com/wp-content/uploads/2018/05/E0A6421-Elk-Calf-Yellowstone-Jim-Coda-20140619-830pix.jpg?fit=830%2C553&ssl=1')
 
@@ -30,6 +31,9 @@ with app.app_context():
 
     post4 = Post(title='day in the life', content='Wake up, eat, nap, lay in sun, use the litter box, chase marvin, nap, play with milo, nap, eat, run around the house, cause havok', user_id=3)
 
-    db.session.add([post1, post2, post3, post4])
+    db.session.add(post1)
+    db.session.add(post2)
+    db.session.add(post3)
+    db.session.add(post4)
     db.session.commit()
    
