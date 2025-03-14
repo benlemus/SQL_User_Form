@@ -1,11 +1,11 @@
 """Blogly application."""
 
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, flash
 from models import db, connect_db, User, Post
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly_db_test'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 
@@ -23,15 +23,14 @@ def home_page():
 
 @app.route('/users')
 def list_users():
-    # users = User.query.all()
     users = User.order_by_name()
     return render_template('users.html', users=users)
 
-# TODO: SHOW POSTS(ANCHORS)
 @app.route('/users/<int:user_id>')
 def user_details(user_id):
     currentUser = User.query.get_or_404(user_id)
-    return render_template('user_details.html', user=currentUser)
+    posts = Post.get_posts_by_id(user_id)
+    return render_template('user_details.html', user=currentUser, posts=posts)
 
 @app.route('/users/new')
 def add_user():
@@ -64,37 +63,91 @@ def edit_user(user_id):
 @app.route('/users/<int:user_id>/edit', methods=['POST'])
 def edit_user_confirm(user_id):
 
-    currentUser = User.query.get_or_404(user_id)
-    currentUser.first_name = request.form['first_name']
-    currentUser.last_name = request.form['last_name']
-    currentUser.img_url = request.form['img_url']
+    if request.form.get('cancel'):
+        return redirect(f'/users/{user_id}')
+    elif request.form.get('update'):
+        currentUser = User.query.get_or_404(user_id)
+        currentUser.first_name = request.form['first_name']
+        currentUser.last_name = request.form['last_name']
+        currentUser.img_url = request.form['img_url']
 
-    db.session.commit()
+        db.session.commit()
 
-    return redirect(f'/users/{user_id}')
+        return redirect(f'/users/{user_id}')
+    else:
+        flash('Could not update')
+    return redirect(f'/users/{user_id}/edit')
 
-@app.route('/user/<int:user_id>/posts/new')
+
+# POSTS
+
+@app.route('/users/<int:user_id>/posts/new')
 def new_post(user_id):
-    return render_template('add_post.html', user_id=user_id)
+    cur_user = User.query.get_or_404(user_id)
+    return render_template('add_post.html', cur_user=cur_user)
 
-@app.route('/user/<int:user_id>/posts/new', methods=['POST'])
-def handle_form(user_id):
-    if request.method == 'POST':
+@app.route('/users/<int:user_id>/posts/new', methods=['POST'])
+def handle_new_post_form(user_id):
+    if request.form.get('cancel'):
+        return redirect(f'/users/{user_id}')
+    elif request.form.get('add'):
         post_title = request.form['title']
         post_content = request.form['content']
         
-        # title, content, user_id
         new_post = Post(title=post_title, content=post_content, user_id=user_id)
         db.session.add(new_post)
         db.session.commit()
 
         return redirect(f'/posts/{new_post.id}')
-    return redirect(f'/users/{user_id}')
+    else:
+        flash('Could not create post')
+    return redirect(f'/users/{user_id}/posts/new')
 
 @app.route('/posts/<int:post_id>')
 def post_details(post_id):
     cur_post = Post.query.get_or_404(post_id)
     cur_user = User.query.get_or_404(cur_post.user_id)
+
     return render_template('post_details.html', post=cur_post, user=cur_user)
 
+@app.route('/posts/<int:post_id>', methods=['POST'])
+def handle_btns(post_id):
+    cur_post = Post.query.get_or_404(post_id)
+    cur_user = User.query.get_or_404(cur_post.user_id)
+
+    if request.form.get('cancel'):
+        return redirect(f'/users/{cur_user.id}')
+    
+    elif request.form.get('edit'):
+        return redirect(f'/posts/{post_id}/edit')
+
+    elif request.form.get('delete'):
+        Post.query.filter(Post.id == f'{post_id}').delete()
+        db.session.commit()
+        return redirect(f'/users/{cur_user.id}')
+    
+    return redirect(f'/posts/{post_id}')
+
+@app.route('/posts/<int:post_id>/edit')
+def edit_post(post_id):
+    cur_post = Post.query.get_or_404(post_id)
+
+    return render_template('edit_post.html', p=cur_post)
+
+@app.route('/posts/<int:post_id>/edit', methods=['POST'])
+def handle_edit_post(post_id):
+    p = Post.query.get_or_404(post_id)
+
+    if request.form.get('cancel'):
+        return redirect(f'/posts/{post_id}')
+    elif request.form.get('update'):
+        p.title = request.form['title']
+        p.content = request.form['content']
+
+        db.session.commit()
+
+        return redirect(f'/posts/{post_id}')
+    else:
+        flash('Could not update')
+    return redirect(f'/posts/{post_id}/edit')
 

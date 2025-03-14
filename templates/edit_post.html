@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+<!-- content -->
+{% block content %}
+<h1>Edit Post {{p.title}}</h1>
+<form action="/posts/{{p.id}}/edit" method="post">
+  <label for="title">Title:</label>
+  <input type="text" id="title" name="title" value="{{p.title}}" required />
+
+  <label for="content">Title:</label>
+  <input
+    type="text"
+    id="content"
+    name="content"
+    value="{{p.content}}"
+    required
+  />
+
+  <button name="cancel" value="1">Cancel</button>
+  <button name="update" value="2">Update</button>
+</form>
+
+{% with messages = get_flashed_messages() %} {% if messages %} {% for message in
+messages %}
+<p style="color: red">{{ message }}</p>
+{% endfor %} {% endif %} {% endwith %} {% endblock %}

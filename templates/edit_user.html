@@ -24,8 +24,19 @@
   />
 
   <label for="img_url">Profile Picture URL:</label>
-  <input type="text" id="img_url" name="img_url" />
+  <input
+    type="text"
+    id="img_url"
+    name="img_url"
+    value="{{user.img_url}}"
+    required
+  />
 
-  <button>Add</button>
+  <button name="cancel" value="1">Cancel</button>
+  <button name="update" value="2">Update</button>
 </form>
-{% endblock%}
+
+{% with messages = get_flashed_messages() %} {% if messages %} {% for message in
+messages %}
+<p style="color: red">{{ message }}</p>
+{% endfor %} {% endif %} {% endwith %} {% endblock%}

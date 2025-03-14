@@ -43,3 +43,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     
     user = db.relationship('User', backref='posts')
+
+    @classmethod
+    def get_posts_by_id(self, user_id):
+        return Post.query.filter(Post.user_id == user_id).all()

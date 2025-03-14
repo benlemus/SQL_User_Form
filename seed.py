@@ -1,4 +1,4 @@
-from models import db, User
+from models import db, User, Post
 from app import app
 
 with app.app_context():
@@ -21,4 +21,15 @@ with app.app_context():
     db.session.add(kori)
     db.session.commit()
 
-    post1 = Post()
+
+    post1 = Post(title='walks', content='I like to go on walks to the park to see my friends', user_id=1)
+
+    post2 = Post(title='treats', content='treats are very yummy', user_id=2)
+
+    post3 = Post(title='siblings', content='milo and mojo are my brothers', user_id=2)
+
+    post4 = Post(title='day in the life', content='Wake up, eat, nap, lay in sun, use the litter box, chase marvin, nap, play with milo, nap, eat, run around the house, cause havok', user_id=3)
+
+    db.session.add([post1, post2, post3, post4])
+    db.session.commit()
+   

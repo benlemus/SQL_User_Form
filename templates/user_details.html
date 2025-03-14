@@ -13,7 +13,7 @@
   </form>
 </div>
 
-<div id="all_user_anchor_container">
+<div id="all_users_anchor_container">
   <a href="/users">all users</a>
 </div>
 
@@ -22,14 +22,14 @@
   {% if posts %}
   <ul id="postsList">
     {% for post in posts %}
-    <li><a href="/post_details">{{post}}</a></li>
+    <li><a href="/posts/{{post.id}}">{{post.title}}</a></li>
     {% endfor %}
   </ul>
   {% else %}
   <h4>No posts yet.</h4>
   {% endif %}
 
-  <form action="/user/{{user.id}}/posts/new">
+  <form action="/users/{{user.id}}/posts/new">
     <button>Add Post</button>
   </form>
 </div>
