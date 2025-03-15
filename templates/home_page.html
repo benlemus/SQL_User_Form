@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block content %}
+<h3 id="recent_post_title">Recent Posts</h3>
+<div id="recent_posts_container">
+  {% if posts %}
+  <div id="posts_container">
+    {% for post in posts %}
+    <div class="post">
+      <h2>{{post.title}}</h2>
+      <p>{{post.content}}</p>
+      <h4>
+        By
+        <a href="">{{post.user.full_name}} </a> on {{ post.created_at |
+        format_datetime}}
+      </h4>
+    </div>
+    {% else %} {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

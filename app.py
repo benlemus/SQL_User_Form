@@ -5,7 +5,7 @@ from models import db, connect_db, User, Post
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly_db_test'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 
@@ -16,10 +16,14 @@ app.config['SECRET_KEY'] = 'Milosaysruff01'
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
+@app.template_filter('format_datetime')
+def format_datetime(value):
+    return value.strftime('%a %B %d %Y, %I:%M %p')
 
 @app.route('/')
 def home_page():
-    return redirect('/users')
+    posts = Post.get_recent_posts()
+    return render_template('home_page.html', posts=posts)
 
 @app.route('/users')
 def list_users():
@@ -150,4 +154,5 @@ def handle_edit_post(post_id):
     else:
         flash('Could not update')
     return redirect(f'/posts/{post_id}/edit')
+
 

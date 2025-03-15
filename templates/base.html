@@ -7,6 +7,21 @@
     <link rel="stylesheet" href="/static/style.css" />
   </head>
   <body>
+    <div id="navbar">
+      <div class="logo">
+        <h1><a href="/">Blogly</a></h1>
+      </div>
+
+      <div class="navbar_center">
+        <nav>
+          <ol>
+            <li class="nav_item"><a href="/">Posts</a></li>
+            <li class="nav_item"><a href="/users">Users</a></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
     {% block content %} {% endblock %}
   </body>
 </html>

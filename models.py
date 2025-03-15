@@ -47,3 +47,7 @@ class Post(db.Model):
     @classmethod
     def get_posts_by_id(self, user_id):
         return Post.query.filter(Post.user_id == user_id).all()
+    
+    @classmethod
+    def get_recent_posts(self):
+        return Post.query.order_by(Post.created_at.desc()).limit(5).all()
