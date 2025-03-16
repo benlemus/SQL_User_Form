@@ -1,40 +1,42 @@
 {% extends 'base.html' %}
 
+<!-- style -->
+{% block stylesheet%}
+<link rel="stylesheet" href="/static/edit_user.css" />
+{% endblock %}
 <!-- content -->
 {% block content %}
-<h1>Update Information</h1>
+<h1 id="edit_user_title">Update Information</h1>
 
-<form action="/users/{{user.id}}/edit" id="new_user_form" method="post">
-  <label for="first_name">First Name:</label>
-  <input
-    type="text"
-    id="first_name"
-    name="first_name"
-    value="{{user.first_name}}"
-    required
-  />
+<div id="edit_user_container">
+  <form action="/users/{{user.id}}/edit" id="new_user_form" method="post">
+    <label for="first_name">First Name:</label>
+    <input
+      type="text"
+      id="first_name"
+      name="first_name"
+      value="{{user.first_name}}"
+      required
+    />
 
-  <label for="last_name">Last Name:</label>
-  <input
-    type="text"
-    id="last_name"
-    name="last_name"
-    value="{{user.last_name}}"
-    required
-  />
+    <label for="last_name">Last Name:</label>
+    <input
+      type="text"
+      id="last_name"
+      name="last_name"
+      value="{{user.last_name}}"
+      required
+    />
 
-  <label for="img_url">Profile Picture URL:</label>
-  <input
-    type="text"
-    id="img_url"
-    name="img_url"
-    value="{{user.img_url}}"
-    required
-  />
+    <label for="img_url">Profile Picture URL:</label>
+    <input type="text" id="img_url" name="img_url" value="{{user.img_url}}" />
 
-  <button name="cancel" value="1">Cancel</button>
-  <button name="update" value="2">Update</button>
-</form>
+    <div class="edit_user_btns">
+      <button name="cancel" value="1" class="cancel_btn">Cancel</button>
+      <button name="update" value="2" class="update_btn">Update</button>
+    </div>
+  </form>
+</div>
 
 {% with messages = get_flashed_messages() %} {% if messages %} {% for message in
 messages %}

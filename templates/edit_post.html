@@ -1,25 +1,34 @@
 {% extends 'base.html' %}
 
+<!-- style -->
+{% block stylesheet%}
+<link rel="stylesheet" href="/static/edit_post.css" />
+{% endblock %}
+
 <!-- content -->
 {% block content %}
-<h1>Edit Post {{p.title}}</h1>
-<form action="/posts/{{p.id}}/edit" method="post">
-  <label for="title">Title:</label>
-  <input type="text" id="title" name="title" value="{{p.title}}" required />
+<h1 id="edit_post_title">Edit Post {{p.title}}</h1>
 
-  <label for="content">Title:</label>
-  <input
-    type="text"
-    id="content"
-    name="content"
-    value="{{p.content}}"
-    required
-  />
+<div id="form_container">
+  <form action="/posts/{{p.id}}/edit" method="post">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" value="{{p.title}}" required />
 
-  <button name="cancel" value="1">Cancel</button>
-  <button name="update" value="2">Update</button>
-</form>
+    <label for="content">Content:</label>
+    <input
+      type="text"
+      id="content"
+      name="content"
+      value="{{p.content}}"
+      required
+    />
 
+    <div id="btn_container">
+      <button name="cancel" value="1">Cancel</button>
+      <button name="update" value="2">Update</button>
+    </div>
+  </form>
+</div>
 {% with messages = get_flashed_messages() %} {% if messages %} {% for message in
 messages %}
 <p style="color: red">{{ message }}</p>

@@ -1,4 +1,12 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+
+<!-- style -->
+{% block stylesheet%}
+<link rel="stylesheet" href="/static/home_page.css" />
+{% endblock %}
+
+<!-- content -->
+{% block content %}
 <h3 id="recent_post_title">Recent Posts</h3>
 <div id="recent_posts_container">
   {% if posts %}
@@ -9,11 +17,13 @@
       <p>{{post.content}}</p>
       <h4>
         By
-        <a href="">{{post.user.full_name}} </a> on {{ post.created_at |
-        format_datetime}}
+        <a href="/users/{{post.user_id}}">{{post.user.full_name}} </a> on {{
+        post.created_at | format_datetime}}
       </h4>
     </div>
-    {% else %} {% endfor %}
+    {% else %}
+    <p id="no_post_title">no posts yet</p>
+    {% endfor %}
   </div>
   {% endif %}
 </div>

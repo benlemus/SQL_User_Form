@@ -1,36 +1,44 @@
 {% extends 'base.html' %}
 
+<!-- style -->
+{% block stylesheet%}
+<link rel="stylesheet" href="/static/user_details.css" />
+{% endblock %}
+
 <!-- content -->
 {% block content %}
 <div id="userContainer">
-  <img src="{{user.img_url}}" alt="" />
-  <h1>{{user.full_name}}</h1>
-  <form action="/users/{{user.id}}/edit">
-    <button id="edit_button">Edit</button>
-  </form>
-  <form action="/users/{{user.id}}/delete" method="post">
-    <button id="delete_button">Delete</button>
-  </form>
-</div>
+  <div class="img_container">
+    <img src="{{user.img_url}}" alt="" />
+  </div>
+  <div id="details_container">
+    <h1>{{user.full_name}}</h1>
 
-<div id="all_users_anchor_container">
-  <a href="/users">all users</a>
-</div>
+    <div class="btns_container">
+      <form action="/users/{{user.id}}/edit">
+        <button id="edit_button">Edit</button>
+      </form>
+      <form action="/users/{{user.id}}/delete" method="post">
+        <button id="delete_button">Delete</button>
+      </form>
+    </div>
 
-<div id="postsContainer">
-  <h3>Posts:</h3>
-  {% if posts %}
-  <ul id="postsList">
-    {% for post in posts %}
-    <li><a href="/posts/{{post.id}}">{{post.title}}</a></li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <h4>No posts yet.</h4>
-  {% endif %}
+    <div id="postsContainer">
+      <h3>Posts:</h3>
+      {% if posts %}
+      <ul id="postsList">
+        {% for post in posts %}
+        <li><a href="/posts/{{post.id}}">{{post.title}}</a></li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <h4>No posts yet.</h4>
+      {% endif %}
 
-  <form action="/users/{{user.id}}/posts/new">
-    <button>Add Post</button>
-  </form>
+      <form action="/users/{{user.id}}/posts/new">
+        <button>Add Post</button>
+      </form>
+    </div>
+  </div>
 </div>
 {% endblock %}

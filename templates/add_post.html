@@ -1,20 +1,32 @@
-{% extends 'base.html' %} {% block content %}
-<h1>Add a post for {{cur_user.full_name}}</h1>
+{% extends 'base.html' %}
 
-<form
-  action="/users/{{cur_user.id}}/posts/new"
-  id="new_post_form"
-  method="post"
->
-  <label for="title">Title:</label>
-  <input type="text" id="title" name="title" />
+<!-- style -->
+{% block stylesheet%}
+<link rel="stylesheet" href="/static/add_post.css" />
+{% endblock %}
 
-  <label for="content">Content:</label>
-  <input type="text" id="content" name="content" />
+<!-- content -->
+{% block content %}
+<h1 id="add_post_title">Add a post for {{cur_user.full_name}}</h1>
 
-  <button type="submit" name="cancel" value="1">Cancel</button>
-  <button type="submit" name="add" value="2">Add</button>
-</form>
+<div id="add_post_container">
+  <form
+    action="/users/{{cur_user.id}}/posts/new"
+    id="new_post_form"
+    method="post"
+  >
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" />
+
+    <label for="content">Content:</label>
+    <input type="text" id="content" name="content" />
+
+    <div id="btn_container">
+      <button type="submit" name="cancel" value="1" id="cancel">Cancel</button>
+      <button type="submit" name="add" value="2" id="add">Add</button>
+    </div>
+  </form>
+</div>
 
 {% with messages = get_flashed_messages() %} {% if messages %} {% for message in
 messages %}

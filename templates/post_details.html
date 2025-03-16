@@ -1,12 +1,22 @@
-{% extends 'base.html' %} {% block content %}
-<h1>{{post.title}}</h1>
-<p>{{post.content}}</p>
+{% extends 'base.html' %}
 
-<h4><i>by {{user.full_name}}</i></h4>
+<!-- style -->
+{% block stylesheet%}
+<link rel="stylesheet" href="/static/post_details.css" />
+{% endblock %}
 
-<form action="/posts/{{post.id}}" method="post">
-  <button type="submit" name="cancel" value="1">Cancel</button>
-  <button type="submit" name="edit" value="2">Edit</button>
-  <button type="submit" name="delete" value="3">Delete</button>
-</form>
+<!-- content -->
+{% block content %}
+<div id="post_container">
+  <h1>{{post.title}}</h1>
+  <p>{{post.content}}</p>
+
+  <h4><i>by {{user.full_name}}</i></h4>
+
+  <form action="/posts/{{post.id}}" method="post">
+    <button type="submit" name="cancel" value="1">Cancel</button>
+    <button type="submit" name="edit" value="2">Edit</button>
+    <button type="submit" name="delete" value="3">Delete</button>
+  </form>
+</div>
 {% endblock %}
