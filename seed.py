@@ -1,4 +1,4 @@
-from models import db, User, Post
+from models import db, User, Post, Tag, PostTag
 from app import app
 
 with app.app_context():
@@ -36,4 +36,19 @@ with app.app_context():
     db.session.add(post3)
     db.session.add(post4)
     db.session.commit()
+
+    funny = Tag(name='funny')
+    english = Tag(name='english')
+
+    db.session.add(funny)
+    db.session.add(english)
+    db.session.commit()
+
+    post_tags = PostTag(post_id=1, tag_id=1)
+    post_tags2 = PostTag(post_id=1, tag_id=2)
+
+    db.session.add(post_tags)
+    db.session.add(post_tags2)
+    db.session.commit()
+
    

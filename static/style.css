@@ -1,0 +1,403 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: rgb(12, 12, 12);
+  overflow-y: scroll;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  max-width: 250px;
+  max-height: 300px;
+}
+
+/***********************/
+/* NAVBAR */
+/***********************/
+
+#navbar {
+  background-color: rgb(12, 12, 12);
+  padding-bottom: 20px;
+  padding-top: 10px;
+  border-bottom: 1px solid white;
+  position: fixed;
+  width: 100%;
+}
+
+#navbar h1 a {
+  color: white;
+  padding-left: 20px;
+}
+
+nav ol {
+  list-style-type: none;
+  height: 50px;
+}
+
+nav li {
+  width: 150px;
+  font-size: 30px;
+  padding-top: 7px;
+  display: inline-block;
+  height: 100%;
+}
+
+nav li:nth-child(1) {
+  padding-left: 15vw;
+}
+
+nav li:nth-child(2) {
+  padding-right: 15vw;
+}
+
+nav li:nth-child(1):hover {
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 0, 0, 0),
+    rgba(148, 148, 148, 0.5)
+  );
+}
+
+nav li:nth-child(2):hover {
+  background-image: linear-gradient(
+    to left,
+    rgba(255, 0, 0, 0),
+    rgba(148, 148, 148, 0.5)
+  );
+}
+
+nav ol a {
+  text-decoration: none;
+  color: white;
+}
+
+.navbar_center {
+  text-align: center;
+}
+
+/***********************/
+/* BUTTONS */
+/***********************/
+.btns_container {
+  display: flex;
+}
+
+.add_btn {
+  margin-top: 20px;
+  font-size: 15px;
+  width: 90px;
+  height: 30px;
+  background-color: rgb(31, 229, 255);
+  border: 1px solid white;
+  border-radius: 3px;
+  color: white;
+}
+
+.edit_btn {
+  margin-top: 20px;
+  font-size: 15px;
+  width: 60px;
+  height: 30px;
+  background-color: rgb(31, 229, 255);
+  border: 1px solid white;
+  border-radius: 3px;
+  color: white;
+}
+
+.delete_btn {
+  margin-top: 20px;
+  font-size: 15px;
+  width: 90px;
+  height: 30px;
+  background-color: rgb(255, 0, 0);
+  border: 0.5px solid white;
+  border-radius: 3px;
+  color: white;
+  margin-left: 10px;
+}
+
+.cancel_btn {
+  margin-top: 20px;
+  font-size: 15px;
+  width: 90px;
+  height: 30px;
+  background-color: rgb(255, 0, 0);
+  border: 1px solid white;
+  border-radius: 3px;
+  color: white;
+}
+
+.update_btn {
+  margin-top: 20px;
+  font-size: 15px;
+  width: 60px;
+  height: 30px;
+  background-color: rgb(31, 229, 255);
+  border: 1px solid white;
+  border-radius: 3px;
+  color: white;
+}
+
+/***********************/
+/* PAGE TITLE */
+/***********************/
+.page_title {
+  padding-top: 140px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+}
+
+/***********************/
+/* PAGE CONTAINER */
+/***********************/
+.page_container {
+  color: white;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/***********************/
+/* FORMS */
+/***********************/
+
+.form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-size: 20px;
+}
+
+.form_label {
+  padding-top: 10px;
+}
+
+.form_input {
+  padding: 5px;
+}
+
+/***********************/
+/* HOME PAGE */
+/***********************/
+.post {
+  outline: 1px solid white;
+  color: white;
+  width: 45vw;
+  text-align: center;
+  height: 30vh;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.post h2 {
+  font-size: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-decoration: underline dashed;
+}
+
+.post p {
+  margin-top: auto;
+  font-size: 20px;
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.post h4 {
+  margin-top: auto;
+  padding-bottom: 10px;
+}
+
+#recent_posts_container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 20px;
+}
+
+#recent_post_title {
+  color: white;
+  padding-top: 140px;
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+}
+
+#no_post_title {
+  padding-top: 160px;
+}
+
+/***********************/
+/* USERS PAGE */
+/***********************/
+.user_container a {
+  color: white;
+}
+
+.user_container li {
+  width: 150%;
+  padding-top: 20px;
+  font-size: 20px;
+}
+
+#add_btn_users {
+  margin-top: 20px;
+  font-size: 15px;
+  width: 90px;
+  height: 30px;
+}
+
+/***********************/
+/* USERS DETAILS PAGE */
+/***********************/
+#user_detail_page {
+  padding-top: 140px;
+  color: white;
+  display: flex;
+  width: 100%;
+}
+
+#details_container {
+  padding-left: 20px;
+}
+
+#details_container h1 {
+  font-size: 50px;
+}
+
+#edit_btn_user_details {
+  margin-top: 20px;
+  font-size: 15px;
+  width: 60px;
+  height: 30px;
+}
+
+#delete_btn_user_details {
+  margin-top: 20px;
+  font-size: 15px;
+  width: 90px;
+  height: 30px;
+}
+
+#postsContainer {
+  padding-top: 40px;
+}
+
+#postsContainer h3 {
+  font-size: 30px;
+  padding-bottom: 10px;
+}
+
+#postsContainer a {
+  color: white;
+  font-size: 20px;
+}
+
+#postsContainer ul {
+  margin-left: 30px;
+  padding-bottom: 10px;
+}
+
+#postsContainer h4 {
+  padding-bottom: 10px;
+}
+
+#add_btn_user_detail {
+  font-size: 15px;
+}
+
+/***********************/
+/* ADD POST PAGE */
+/***********************/
+#add_btn_add_post {
+  margin-right: 5px;
+}
+
+#cancel_btn_add_post {
+  margin-left: 5px;
+}
+
+/***********************/
+/* ADD USER PAGE */
+/***********************/
+#add_btn_add_user {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/***********************/
+/* EDIT POST PAGE */
+/***********************/
+
+#update_btn_edit_post {
+  margin-right: 5px;
+  margin-left: auto;
+}
+
+#cancel_btn_edit_post {
+  margin-left: 5px;
+  margin-right: auto;
+}
+
+/***********************/
+/* EDIT USER PAGE */
+/***********************/
+#update_btn_edit_user {
+  margin-left: 5px;
+  margin-right: auto;
+}
+
+#cancel_btn_edit_user {
+  margin-right: 5px;
+  margin-left: auto;
+}
+
+/***********************/
+/* POST DETAILS PAGE */
+/***********************/
+#post_detail_page {
+  padding-top: 140px;
+  padding-left: 10px;
+  color: white;
+  width: 100%;
+}
+
+#post_deatil_cancel_btn {
+  margin-top: 20px;
+  font-size: 15px;
+  width: 90px;
+  height: 30px;
+  background-color: rgba(0, 0, 0, 0);
+  border: 0.5px solid rgb(255, 0, 0);
+  border-radius: 3px;
+  color: rgb(255, 0, 0);
+  margin-right: 10px;
+}
+
+#post_detail_edit_btn {
+  margin-top: 20px;
+  font-size: 15px;
+}
+
+#post_detail_delete_btn {
+  margin-top: 20px;
+  font-size: 15px;
+}
+
+/***********************/
+/* TAGS PAGE */
+/***********************/
+#tags_list {
+  color: white;
+  padding-top: 140px;
+}

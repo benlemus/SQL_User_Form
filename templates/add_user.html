@@ -1,26 +1,42 @@
 {% extends 'base.html' %}
 
-<!-- style -->
-{% block stylesheet%}
-<link rel="stylesheet" href="/static/add_user.css" />
-{% endblock %}
-
 <!-- content -->
 {% block content %}
-<h1 id="create_user_title">Create a user</h1>
+<h1 class="page_title">Create a user</h1>
 
-<div id="new_user_form_container">
-  <form action="/users" id="new_user_form" method="post">
-    <label for="first_name">First Name:</label>
-    <input type="text" id="first_name" name="first_name" required />
+<div class="page_container">
+  <form action="/users" class="form" method="post">
+    <label for="first_name" class="form_label add_user_label"
+      >First Name:</label
+    >
+    <input
+      type="text"
+      id="first_name"
+      name="first_name"
+      class="form_input add_user_input"
+      required
+    />
 
-    <label for="last_name">Last Name:</label>
-    <input type="text" id="last_name" name="last_name" required />
+    <label for="last_name" class="form_label add_user_label">Last Name:</label>
+    <input
+      type="text"
+      id="last_name"
+      name="last_name"
+      class="form_input add_user_input"
+      required
+    />
 
-    <label for="img_url">Profile Picture URL:</label>
-    <input type="text" id="img_url" name="img_url" />
+    <label for="img_url" class="form_label add_user_label"
+      >Profile Picture URL:</label
+    >
+    <input
+      type="text"
+      id="img_url"
+      name="img_url"
+      class="form_input add_user_input"
+    />
 
-    <button>Add</button>
+    <button class="add_btn" id="add_btn_add_user">Add</button>
   </form>
 </div>
 {% endblock %}

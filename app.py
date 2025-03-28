@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, render_template, redirect, request, flash
-from models import db, connect_db, User, Post
+from models import db, connect_db, User, Post, Tag, PostTag
 
 app = Flask(__name__)
 
@@ -16,30 +16,41 @@ app.config['SECRET_KEY'] = 'Milosaysruff01'
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
+''' ERROR HANDLER '''
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+''' FORMATS DATE AND TIME '''
 @app.template_filter('format_datetime')
 def format_datetime(value):
     return value.strftime('%a %B %d %Y, %I:%M %p')
 
+''' SHOWS HOME PAGE WITH RECENT STORIES '''
 @app.route('/')
 def home_page():
     posts = Post.get_recent_posts()
     return render_template('home_page.html', posts=posts)
 
+''' SHOWS ALL USERS ORDERED BY NAME '''
 @app.route('/users')
 def list_users():
     users = User.order_by_name()
     return render_template('users.html', users=users)
 
+''' SHOWS SPECIFIC USERS DETAILS '''
 @app.route('/users/<int:user_id>')
 def user_details(user_id):
     currentUser = User.query.get_or_404(user_id)
     posts = Post.get_posts_by_id(user_id)
     return render_template('user_details.html', user=currentUser, posts=posts)
 
+''' SHOWS CREATE NEW USER FORM '''
 @app.route('/users/new')
 def add_user():
     return render_template('add_user.html')
 
+''' HANDLES NEW USER FORM. REDIRECTS TO USERS DETAILS'''
 @app.route('/users', methods=['POST'])
 def create_user():
     first_name = request.form['first_name']
@@ -53,17 +64,21 @@ def create_user():
     db.session.commit()
     return redirect(f'/users/{new_user.id}')
 
+''' DELETES USER. REDIRECTS TO ALL USERS '''
 @app.route('/users/<int:user_id>/delete', methods=['POST'])
 def delete_user(user_id):
     User.query.filter(User.id == f'{user_id}').delete()
     db.session.commit()
     return redirect('/users')
 
+''' SHOWS USER EDIT FORM '''
 @app.route('/users/<int:user_id>/edit')
 def edit_user(user_id):
     currentUser = User.query.get_or_404(user_id)
     return render_template('edit_user.html', user=currentUser)
 
+
+''' HANDLES USER EDIT FORM. REDIRECTS TO USER DETAILS '''
 @app.route('/users/<int:user_id>/edit', methods=['POST'])
 def edit_user_confirm(user_id):
 
@@ -85,11 +100,13 @@ def edit_user_confirm(user_id):
 
 # POSTS
 
+''' SHOWS NEW POST FORM '''
 @app.route('/users/<int:user_id>/posts/new')
 def new_post(user_id):
     cur_user = User.query.get_or_404(user_id)
     return render_template('add_post.html', cur_user=cur_user)
 
+''' HANDLES NEW POST FORM '''
 @app.route('/users/<int:user_id>/posts/new', methods=['POST'])
 def handle_new_post_form(user_id):
     if request.form.get('cancel'):
@@ -107,6 +124,7 @@ def handle_new_post_form(user_id):
         flash('Could not create post')
     return redirect(f'/users/{user_id}/posts/new')
 
+''' SHOWS POSTS DETAILS '''
 @app.route('/posts/<int:post_id>')
 def post_details(post_id):
     cur_post = Post.query.get_or_404(post_id)
@@ -114,6 +132,7 @@ def post_details(post_id):
 
     return render_template('post_details.html', post=cur_post, user=cur_user)
 
+''' HANDLES CANCEL EDIT DELETE BUTTONS '''
 @app.route('/posts/<int:post_id>', methods=['POST'])
 def handle_btns(post_id):
     cur_post = Post.query.get_or_404(post_id)
@@ -132,12 +151,14 @@ def handle_btns(post_id):
     
     return redirect(f'/posts/{post_id}')
 
+''' SHOWS EDIT POST FORM '''
 @app.route('/posts/<int:post_id>/edit')
 def edit_post(post_id):
     cur_post = Post.query.get_or_404(post_id)
 
     return render_template('edit_post.html', p=cur_post)
 
+''' HANDLES EDIT FORM & REDIRECTS TO POST DETAILS '''
 @app.route('/posts/<int:post_id>/edit', methods=['POST'])
 def handle_edit_post(post_id):
     p = Post.query.get_or_404(post_id)
@@ -155,7 +176,32 @@ def handle_edit_post(post_id):
         flash('Could not update')
     return redirect(f'/posts/{post_id}/edit')
 
+# TAGS
+''' SHOWS ALL TAGS '''
+@app.route('/tags')
+def show_tags():
+    tags = Tag.get_all_tags()
 
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
+    return render_template('tags.html', tags=tags)
+
+''' SHOWS SPECIFIC TAG DETAILS '''
+@app.route('/tags/details')
+def tag_details():
+    pass
+
+''' SHOWS NEW TAG FORM'''
+@app.route('/tags/new', methods=['GET', 'POST'])
+def new_tag_form():
+    pass
+
+''' '''
+@app.route('/tags/edit', methods=['GET', 'POST'])
+def edit_tag():
+    pass
+
+@app.route('/tags/delete', methods=['POST'])
+def delete_tag():
+    pass
+
+
+

@@ -1,31 +1,48 @@
 {% extends 'base.html' %}
 
-<!-- style -->
-{% block stylesheet%}
-<link rel="stylesheet" href="/static/edit_post.css" />
-{% endblock %}
-
 <!-- content -->
 {% block content %}
-<h1 id="edit_post_title">Edit Post {{p.title}}</h1>
+<h1 class="page_title">Edit Post {{p.title}}</h1>
 
-<div id="form_container">
-  <form action="/posts/{{p.id}}/edit" method="post">
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" value="{{p.title}}" required />
+<div class="page_container">
+  <form action="/posts/{{p.id}}/edit" method="post" class="form">
+    <label for="title" class="form_label">Title:</label>
+    <input
+      type="text"
+      id="title"
+      name="title"
+      value="{{p.title}}"
+      required
+      class="form_input"
+    />
 
-    <label for="content">Content:</label>
+    <label for="content" class="form_lebel">Content:</label>
     <input
       type="text"
       id="content"
       name="content"
       value="{{p.content}}"
       required
+      class="form_input"
     />
 
-    <div id="btn_container">
-      <button name="cancel" value="1">Cancel</button>
-      <button name="update" value="2">Update</button>
+    <div class="btns_container">
+      <button
+        name="update"
+        value="2"
+        class="update_btn"
+        id="update_btn_edit_post"
+      >
+        Update
+      </button>
+      <button
+        name="cancel"
+        value="1"
+        class="cancel_btn"
+        id="cancel_btn_edit_post"
+      >
+        Cancel
+      </button>
     </div>
   </form>
 </div>

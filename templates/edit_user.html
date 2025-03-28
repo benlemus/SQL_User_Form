@@ -1,39 +1,62 @@
 {% extends 'base.html' %}
 
-<!-- style -->
-{% block stylesheet%}
-<link rel="stylesheet" href="/static/edit_user.css" />
-{% endblock %}
 <!-- content -->
 {% block content %}
-<h1 id="edit_user_title">Update Information</h1>
+<h1 class="page_title">Update Information</h1>
 
-<div id="edit_user_container">
-  <form action="/users/{{user.id}}/edit" id="new_user_form" method="post">
-    <label for="first_name">First Name:</label>
+<div class="page_container">
+  <form
+    action="/users/{{user.id}}/edit"
+    class="form"
+    id="edit_user_form"
+    method="post"
+  >
+    <label for="first_name" class="form_label">First Name:</label>
     <input
       type="text"
       id="first_name"
       name="first_name"
       value="{{user.first_name}}"
       required
+      class="form_input"
     />
 
-    <label for="last_name">Last Name:</label>
+    <label for="last_name" class="form_label">Last Name:</label>
     <input
       type="text"
       id="last_name"
       name="last_name"
       value="{{user.last_name}}"
       required
+      class="form_input"
     />
 
-    <label for="img_url">Profile Picture URL:</label>
-    <input type="text" id="img_url" name="img_url" value="{{user.img_url}}" />
+    <label for="img_url" class="form_label">Profile Picture URL:</label>
+    <input
+      type="text"
+      id="img_url"
+      name="img_url"
+      value="{{user.img_url}}"
+      class="form_input"
+    />
 
-    <div class="edit_user_btns">
-      <button name="cancel" value="1" class="cancel_btn">Cancel</button>
-      <button name="update" value="2" class="update_btn">Update</button>
+    <div class="btns_container">
+      <button
+        name="update"
+        value="2"
+        class="update_btn"
+        id="update_btn_edit_user"
+      >
+        Update
+      </button>
+      <button
+        name="cancel"
+        value="1"
+        class="cancel_btn"
+        id="cancel_btn_edit_user"
+      >
+        Cancel
+      </button>
     </div>
   </form>
 </div>

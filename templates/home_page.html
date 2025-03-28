@@ -1,14 +1,9 @@
 {% extends 'base.html' %}
 
-<!-- style -->
-{% block stylesheet%}
-<link rel="stylesheet" href="/static/home_page.css" />
-{% endblock %}
-
 <!-- content -->
 {% block content %}
 <h3 id="recent_post_title">Recent Posts</h3>
-<div id="recent_posts_container">
+<div class="page_container">
   {% if posts %}
   <div id="posts_container">
     {% for post in posts %}

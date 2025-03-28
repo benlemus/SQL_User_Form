@@ -1,13 +1,8 @@
 {% extends 'base.html' %}
 
-<!-- style -->
-{% block stylesheet%}
-<link rel="stylesheet" href="/static/user_details.css" />
-{% endblock %}
-
 <!-- content -->
 {% block content %}
-<div id="userContainer">
+<div id="user_detail_page">
   <div class="img_container">
     <img src="{{user.img_url}}" alt="" />
   </div>
@@ -16,10 +11,10 @@
 
     <div class="btns_container">
       <form action="/users/{{user.id}}/edit">
-        <button id="edit_button">Edit</button>
+        <button id="edit_btn_user_details" class="edit_btn">Edit</button>
       </form>
       <form action="/users/{{user.id}}/delete" method="post">
-        <button id="delete_button">Delete</button>
+        <button id="delete_btn_user_details" class="delete_btn">Delete</button>
       </form>
     </div>
 
@@ -36,7 +31,7 @@
       {% endif %}
 
       <form action="/users/{{user.id}}/posts/new">
-        <button>Add Post</button>
+        <button class="add_btn" id="add_btn_user_detail">Add Post</button>
       </form>
     </div>
   </div>
