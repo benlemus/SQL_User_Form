@@ -32,6 +32,9 @@ def home_page():
     posts = Post.get_recent_posts()
     return render_template('home_page.html', posts=posts)
 
+
+# USERS
+
 ''' SHOWS ALL USERS ORDERED BY NAME '''
 @app.route('/users')
 def list_users():
@@ -181,18 +184,34 @@ def handle_edit_post(post_id):
 @app.route('/tags')
 def show_tags():
     tags = Tag.get_all_tags()
-
     return render_template('tags.html', tags=tags)
 
 ''' SHOWS SPECIFIC TAG DETAILS '''
-@app.route('/tags/details')
-def tag_details():
-    pass
+@app.route('/tags/<int:tag_id>')
+def tag_details(tag_id):
+    tag = Tag.query.get(tag_id)
+    return render_template('tag_details.html', tag=tag)
 
-''' SHOWS NEW TAG FORM'''
-@app.route('/tags/new', methods=['GET', 'POST'])
+''' SHOWS NEW TAG FORM '''
+@app.route('/tags/new')
 def new_tag_form():
-    pass
+    return render_template('add_tag.html')  
+
+@app.route('/tags/new', methods=['POST'])
+def handle_new_tag_form():
+    if request.form.get('cancel'):
+        return redirect('/tags')
+    elif request.form.get('add'):
+        tag_name = request.form['name']
+        new_tag = Tag(name=tag_name)
+
+        db.session.add(new_tag)
+        db.session.commit()
+
+        return redirect(f'/tags/{new_tag.id}')
+    else:
+        return redirect('/tags/new')
+
 
 ''' '''
 @app.route('/tags/edit', methods=['GET', 'POST'])

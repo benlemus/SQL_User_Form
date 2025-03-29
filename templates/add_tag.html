@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+<!-- content -->
+{% block content %}
+<h1 class="page_title">Create Tag</h1>
+
+<div class="page_container">
+  <form action="/tags/new" class="form" method="post">
+    <label for="tag_name" class="form_label">Name</label>
+    <input type="text" name="name" id="tag_name" class="form_input" />
+
+    <div class="btns_container">
+      <button
+        class="add_btn"
+        id="add_btn_add_tag"
+        type="submit"
+        value="1"
+        name="add"
+      >
+        Add
+      </button>
+      <button
+        class="cancel_btn"
+        id="cancel_btn_add_tag"
+        type="submit"
+        value="2"
+        name="cancel"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

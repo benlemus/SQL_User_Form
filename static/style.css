@@ -185,6 +185,20 @@ nav ol a {
 }
 
 /***********************/
+/* UNORDERED LISTS */
+/***********************/
+.ul_li {
+  width: 150%;
+  padding-top: 20px;
+  font-size: 20px;
+}
+
+.ul_a {
+  color: white;
+  text-decoration: underline;
+}
+
+/***********************/
 /* HOME PAGE */
 /***********************/
 .post {
@@ -238,26 +252,6 @@ nav ol a {
 }
 
 /***********************/
-/* USERS PAGE */
-/***********************/
-.user_container a {
-  color: white;
-}
-
-.user_container li {
-  width: 150%;
-  padding-top: 20px;
-  font-size: 20px;
-}
-
-#add_btn_users {
-  margin-top: 20px;
-  font-size: 15px;
-  width: 90px;
-  height: 30px;
-}
-
-/***********************/
 /* USERS DETAILS PAGE */
 /***********************/
 #user_detail_page {
@@ -273,20 +267,6 @@ nav ol a {
 
 #details_container h1 {
   font-size: 50px;
-}
-
-#edit_btn_user_details {
-  margin-top: 20px;
-  font-size: 15px;
-  width: 60px;
-  height: 30px;
-}
-
-#delete_btn_user_details {
-  margin-top: 20px;
-  font-size: 15px;
-  width: 90px;
-  height: 30px;
 }
 
 #postsContainer {
@@ -384,20 +364,10 @@ nav ol a {
   margin-right: 10px;
 }
 
-#post_detail_edit_btn {
-  margin-top: 20px;
-  font-size: 15px;
+#add_btn_add_tag {
+  margin-right: 5px;
 }
 
-#post_detail_delete_btn {
-  margin-top: 20px;
-  font-size: 15px;
-}
-
-/***********************/
-/* TAGS PAGE */
-/***********************/
-#tags_list {
-  color: white;
-  padding-top: 140px;
+#cancel_btn_add_tag {
+  margin-left: 5px;
 }
