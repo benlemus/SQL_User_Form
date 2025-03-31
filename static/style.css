@@ -48,14 +48,6 @@ nav li {
   height: 100%;
 }
 
-nav li:nth-child(1) {
-  padding-left: 15vw;
-}
-
-nav li:nth-child(2) {
-  padding-right: 15vw;
-}
-
 nav li:nth-child(1):hover {
   background-image: linear-gradient(
     to right,
@@ -65,6 +57,10 @@ nav li:nth-child(1):hover {
 }
 
 nav li:nth-child(2):hover {
+  background-color: rgba(148, 148, 148, 0.5);
+}
+
+nav li:nth-child(3):hover {
   background-image: linear-gradient(
     to left,
     rgba(255, 0, 0, 0),
@@ -212,11 +208,12 @@ nav ol a {
   margin-bottom: 20px;
 }
 
-.post h2 {
+#home_page_title {
   font-size: 40px;
   padding-top: 10px;
   padding-bottom: 10px;
   text-decoration: underline dashed;
+  color: white;
 }
 
 .post p {
@@ -308,41 +305,6 @@ nav ol a {
 }
 
 /***********************/
-/* ADD USER PAGE */
-/***********************/
-#add_btn_add_user {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/***********************/
-/* EDIT POST PAGE */
-/***********************/
-
-#update_btn_edit_post {
-  margin-right: 5px;
-  margin-left: auto;
-}
-
-#cancel_btn_edit_post {
-  margin-left: 5px;
-  margin-right: auto;
-}
-
-/***********************/
-/* EDIT USER PAGE */
-/***********************/
-#update_btn_edit_user {
-  margin-left: 5px;
-  margin-right: auto;
-}
-
-#cancel_btn_edit_user {
-  margin-right: 5px;
-  margin-left: auto;
-}
-
-/***********************/
 /* POST DETAILS PAGE */
 /***********************/
 #post_detail_page {
@@ -364,10 +326,79 @@ nav ol a {
   margin-right: 10px;
 }
 
+.name_details {
+  color: white;
+  text-decoration: none;
+}
+
+/***********************/
+/* EDIT POST PAGE */
+/***********************/
+
+#update_btn_edit_post {
+  margin-right: 5px;
+  margin-left: auto;
+}
+
+#cancel_btn_edit_post {
+  margin-left: 5px;
+  margin-right: auto;
+}
+
+/***********************/
+/* ADD USER PAGE */
+/***********************/
+#add_btn_add_user {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/***********************/
+/* EDIT USER PAGE */
+/***********************/
+#update_btn_edit_user {
+  margin-left: 5px;
+  margin-right: auto;
+}
+
+#cancel_btn_edit_user {
+  margin-right: 5px;
+  margin-left: auto;
+}
+
+/***********************/
+/* ADD TAG PAGE */
+/***********************/
 #add_btn_add_tag {
   margin-right: 5px;
 }
 
 #cancel_btn_add_tag {
+  margin-left: 5px;
+}
+
+/***********************/
+/* TAG DETAILS PAGE */
+/***********************/
+#cancel_btn_tag_details {
+  margin-top: 20px;
+  font-size: 15px;
+  width: 90px;
+  height: 30px;
+  background-color: rgba(0, 0, 0, 0);
+  border: 0.5px solid rgb(255, 0, 0);
+  border-radius: 3px;
+  color: rgb(255, 0, 0);
+  margin-right: 10px;
+}
+
+/***********************/
+/* EDIT TAG PAGE */
+/***********************/
+#update_btn_edit_tag {
+  margin-right: 5px;
+}
+
+#cancel_btn_edit_tag {
   margin-left: 5px;
 }

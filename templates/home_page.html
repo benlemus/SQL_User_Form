@@ -8,7 +8,9 @@
   <div id="posts_container">
     {% for post in posts %}
     <div class="post">
-      <h2>{{post.title}}</h2>
+      <h2>
+        <a href="/posts/{{post.id}}/2" id="home_page_title">{{post.title}}</a>
+      </h2>
       <p>{{post.content}}</p>
       <h4>
         By

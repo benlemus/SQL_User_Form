@@ -9,11 +9,13 @@
   <h4 id="post_detail_username">
     <i
       >by
-      <a href="users/{{user.id}}" class="name_details">{{user.full_name}}</a></i
+      <a href="/users/{{user.id}}" class="name_details"
+        >{{user.full_name}}</a
+      ></i
     >
   </h4>
 
-  <form action="/posts/{{post.id}}" method="post">
+  <form action="/posts/{{post.id}}/2" method="post">
     <button
       type="submit"
       name="cancel"

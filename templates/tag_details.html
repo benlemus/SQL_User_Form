@@ -12,6 +12,39 @@
     </li>
     {% endfor %}
   </ul>
+
+  <form action="/tags/{{tag.id}}" method="post">
+    <div class="btns_container">
+      <button
+        class="cancel_btn"
+        id="cancel_btn_tag_details"
+        name="cancel"
+        type="submit"
+        value="1"
+      >
+        Cancel
+      </button>
+      <button
+        class="edit_btn"
+        id="edit_btn_tag"
+        type="submit"
+        name="edit"
+        value="2"
+      >
+        Edit
+      </button>
+
+      <button
+        class="delete_btn"
+        type="submit"
+        name="delete"
+        id="delete_btn_tag"
+        value="3"
+      >
+        Delete
+      </button>
+    </div>
+  </form>
 </div>
 
 {% endblock %}

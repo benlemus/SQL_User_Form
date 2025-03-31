@@ -154,6 +154,26 @@ def handle_btns(post_id):
     
     return redirect(f'/posts/{post_id}')
 
+''' REDIRECTS TO CORRECT PREVIOUS PAGE, HOME PAGE OR USER DETAILS'''
+@app.route('/posts/<int:post_id>/2', methods=['GET', 'POST'])
+def handle_previous_page(post_id):
+    if request.method == 'POST':
+        if request.form.get('cancel'):
+            return redirect(f'/')
+        
+        elif request.form.get('edit'):
+            return redirect(f'/posts/{post_id}/edit')
+
+        elif request.form.get('delete'):
+            Post.query.filter(Post.id == f'{post_id}').delete()
+            db.session.commit()
+            return redirect(f'/')
+    if request.method == 'GET':
+        cur_post = Post.query.get_or_404(post_id)
+        cur_user = User.query.get_or_404(cur_post.user_id)
+
+        return render_template('post_details_home.html', post=cur_post, user=cur_user)
+
 ''' SHOWS EDIT POST FORM '''
 @app.route('/posts/<int:post_id>/edit')
 def edit_post(post_id):
@@ -186,41 +206,60 @@ def show_tags():
     tags = Tag.get_all_tags()
     return render_template('tags.html', tags=tags)
 
-''' SHOWS SPECIFIC TAG DETAILS '''
-@app.route('/tags/<int:tag_id>')
-def tag_details(tag_id):
-    tag = Tag.query.get(tag_id)
-    return render_template('tag_details.html', tag=tag)
-
-''' SHOWS NEW TAG FORM '''
-@app.route('/tags/new')
-def new_tag_form():
-    return render_template('add_tag.html')  
-
-@app.route('/tags/new', methods=['POST'])
+''' SHOWS NEW TAG FORM AND HANDLES NEW TAG FORM '''
+@app.route('/tags/new', methods=['GET','POST'])
 def handle_new_tag_form():
-    if request.form.get('cancel'):
-        return redirect('/tags')
-    elif request.form.get('add'):
-        tag_name = request.form['name']
-        new_tag = Tag(name=tag_name)
+    if request.method == 'POST':
+        if request.form.get('cancel'):
+            return redirect('/tags')
+        elif request.form.get('add'):
+            tag_name = request.form['name']
+            new_tag = Tag(name=tag_name)
 
-        db.session.add(new_tag)
-        db.session.commit()
+            db.session.add(new_tag)
+            db.session.commit()
 
-        return redirect(f'/tags/{new_tag.id}')
+            return redirect(f'/tags/{new_tag.id}')
+    elif request.method == 'GET':
+        return render_template('add_tag.html')
+
+    return redirect('/tags/new')
+
+''' SHOWS SPECIFIC TAG DETAILS '''
+@app.route('/tags/<int:tag_id>', methods=['GET', 'POST'])
+def tag_details(tag_id):
+    if request.method == 'POST':
+        if request.form.get('cancel'):
+            return redirect(f'/tags')
+        
+        elif request.form.get('edit'):
+            return redirect(f'/tags/{tag_id}/edit')
+        
+        elif request.form.get('delete'):
+            Tag.query.filter(Tag.id == tag_id).delete()
+            db.session.commit()
+            return redirect('/tags')
+        
+    elif request.method == 'GET':
+        tag = Tag.query.get(tag_id)
+        return render_template('tag_details.html', tag=tag)
+    
+    return render_template('/tags/<int:tag_id>')
+
+''' EDIT TAG, HANDLE CANCEL/UPDATE BTNS '''
+@app.route('/tags/<int:tag_id>/edit', methods=['GET', 'POST'])
+def edit_tag(tag_id):
+    t = Tag.query.get_or_404(tag_id)
+    if request.method == 'POST':
+        if request.form.get('cancel'):
+            return redirect('/tags')
+        elif request.form.get('update'):
+            t.name = request.form['name']
+            db.session.commit()
+            return redirect(f'/tags/{tag_id}')
+
+    elif request.method == 'GET':
+        tag = Tag.query.get_or_404(tag_id)
+        return render_template('edit_tag.html', tag=tag)
     else:
-        return redirect('/tags/new')
-
-
-''' '''
-@app.route('/tags/edit', methods=['GET', 'POST'])
-def edit_tag():
-    pass
-
-@app.route('/tags/delete', methods=['POST'])
-def delete_tag():
-    pass
-
-
-
+        return redirect(f'/tags/{tag_id}/edit')

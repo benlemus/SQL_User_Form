@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+<!-- content -->
+{% block content %}
+<h1 class="page_title">Edit '{{tag.name}}'</h1>
+
+<div class="page_container">
+  <form action="/tags/{{tag.id}}/edit" class="form" method="post">
+    <label for="tag_name" class="form_label">Name</label>
+    <input type="text" name="name" id="tag_name" class="form_input" />
+
+    <div class="btns_container">
+      <button
+        class="update_btn"
+        id="update_btn"
+        type="submit"
+        value="1"
+        name="update"
+      >
+        Update
+      </button>
+      <button
+        class="cancel_btn"
+        id="cancel_btn_add_tag"
+        type="submit"
+        value="2"
+        name="cancel"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}
