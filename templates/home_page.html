@@ -9,13 +9,17 @@
     {% for post in posts %}
     <div class="post">
       <h2>
-        <a href="/posts/{{post.id}}/2" id="home_page_title">{{post.title}}</a>
+        <a href="/posts/{{post.id}}?prev=home" id="home_page_title"
+          >{{post.title}}</a
+        >
       </h2>
       <p>{{post.content}}</p>
       <h4>
         By
-        <a href="/users/{{post.user_id}}">{{post.user.full_name}} </a> on {{
-        post.created_at | format_datetime}}
+        <a href="/users/{{post.user_id}}" class="author_name"
+          >{{post.user.full_name}}
+        </a>
+        on {{ post.created_at | format_datetime}}
       </h4>
     </div>
     {% else %}

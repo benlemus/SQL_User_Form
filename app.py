@@ -30,7 +30,8 @@ def format_datetime(value):
 @app.route('/')
 def home_page():
     posts = Post.get_recent_posts()
-    return render_template('home_page.html', posts=posts)
+    prev = 'home'
+    return render_template('home_page.html', posts=posts, prev=prev)
 
 
 # USERS
@@ -41,31 +42,51 @@ def list_users():
     users = User.order_by_name()
     return render_template('users.html', users=users)
 
-''' SHOWS SPECIFIC USERS DETAILS '''
+''' SHOWS USER DETAILS '''
 @app.route('/users/<int:user_id>')
 def user_details(user_id):
     currentUser = User.query.get_or_404(user_id)
     posts = Post.get_posts_by_id(user_id)
     return render_template('user_details.html', user=currentUser, posts=posts)
 
-''' SHOWS CREATE NEW USER FORM '''
-@app.route('/users/new')
+''' SHOWS/HANDLES CREATE NEW USER FORM '''
+@app.route('/users/new', methods=['GET', 'POST'])
 def add_user():
+    if request.method == 'POST':
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        img_url = request.form['img_url']
+
+        new_user = User(first_name=first_name, last_name=last_name, img_url=img_url)
+
+    
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(f'/users/{new_user.id}')
+
     return render_template('add_user.html')
 
-''' HANDLES NEW USER FORM. REDIRECTS TO USERS DETAILS'''
-@app.route('/users', methods=['POST'])
-def create_user():
-    first_name = request.form['first_name']
-    last_name = request.form['last_name']
-    img_url = request.form['img_url']
+''' SHOWS/HANDLES USER EDIT FORM '''
+@app.route('/users/<int:user_id>/edit', methods=['GET', 'POST'])
+def edit_user(user_id):
+    if request.method == 'POST':
+        if request.form.get('cancel'):
+            return redirect(f'/users/{user_id}')
+        elif request.form.get('update'):
+            currentUser = User.query.get_or_404(user_id)
+            currentUser.first_name = request.form['first_name']
+            currentUser.last_name = request.form['last_name']
+            currentUser.img_url = request.form['img_url']
 
-    new_user = User(first_name=first_name, last_name=last_name, img_url=img_url)
+            db.session.commit()
 
-  
-    db.session.add(new_user)
-    db.session.commit()
-    return redirect(f'/users/{new_user.id}')
+            return redirect(f'/users/{user_id}')
+        else:
+            flash('Could not update')
+        return redirect(f'/users/{user_id}/edit')
+                   
+    currentUser = User.query.get_or_404(user_id)
+    return render_template('edit_user.html', user=currentUser)
 
 ''' DELETES USER. REDIRECTS TO ALL USERS '''
 @app.route('/users/<int:user_id>/delete', methods=['POST'])
@@ -74,130 +95,106 @@ def delete_user(user_id):
     db.session.commit()
     return redirect('/users')
 
-''' SHOWS USER EDIT FORM '''
-@app.route('/users/<int:user_id>/edit')
-def edit_user(user_id):
-    currentUser = User.query.get_or_404(user_id)
-    return render_template('edit_user.html', user=currentUser)
-
-
-''' HANDLES USER EDIT FORM. REDIRECTS TO USER DETAILS '''
-@app.route('/users/<int:user_id>/edit', methods=['POST'])
-def edit_user_confirm(user_id):
-
-    if request.form.get('cancel'):
-        return redirect(f'/users/{user_id}')
-    elif request.form.get('update'):
-        currentUser = User.query.get_or_404(user_id)
-        currentUser.first_name = request.form['first_name']
-        currentUser.last_name = request.form['last_name']
-        currentUser.img_url = request.form['img_url']
-
-        db.session.commit()
-
-        return redirect(f'/users/{user_id}')
-    else:
-        flash('Could not update')
-    return redirect(f'/users/{user_id}/edit')
-
 
 # POSTS
 
-''' SHOWS NEW POST FORM '''
-@app.route('/users/<int:user_id>/posts/new')
+''' SHOWS/HANDLES NEW POST FORM '''
+@app.route('/users/<int:user_id>/posts/new', methods=['GET', 'POST'])
 def new_post(user_id):
+    if request.method == 'POST':
+        if request.form.get('cancel'):
+            return redirect(f'/users/{user_id}')
+        elif request.form.get('add'):
+            post_title = request.form['title']
+            post_content = request.form['content']
+
+            tags = request.form.getlist('checkbox')
+            
+            new_post = Post(title=post_title, content=post_content, user_id=user_id)
+
+            db.session.add(new_post)
+            db.session.commit()
+
+            for tag in tags:
+                t = Tag.query.filter(Tag.name == tag).first()
+                add_tag = PostTag(post_id=new_post.id, tag_id=t.id)
+                db.session.add(add_tag)
+                db.session.commit()
+
+            return redirect(f'/posts/{new_post.id}')
+        else:
+            flash('Could not create post')
+        return redirect(f'/users/{user_id}/posts/new')        
     cur_user = User.query.get_or_404(user_id)
-    return render_template('add_post.html', cur_user=cur_user)
+    tags = Tag.get_all_tags() 
+    return render_template('add_post.html', cur_user=cur_user, tags=tags)
 
-''' HANDLES NEW POST FORM '''
-@app.route('/users/<int:user_id>/posts/new', methods=['POST'])
-def handle_new_post_form(user_id):
-    if request.form.get('cancel'):
-        return redirect(f'/users/{user_id}')
-    elif request.form.get('add'):
-        post_title = request.form['title']
-        post_content = request.form['content']
-        
-        new_post = Post(title=post_title, content=post_content, user_id=user_id)
-        db.session.add(new_post)
-        db.session.commit()
-
-        return redirect(f'/posts/{new_post.id}')
-    else:
-        flash('Could not create post')
-    return redirect(f'/users/{user_id}/posts/new')
-
-''' SHOWS POSTS DETAILS '''
-@app.route('/posts/<int:post_id>')
+''' SHOWS/HANDLES POSTS DETAILS '''
+@app.route('/posts/<int:post_id>', methods=['GET', 'POST'])
 def post_details(post_id):
     cur_post = Post.query.get_or_404(post_id)
     cur_user = User.query.get_or_404(cur_post.user_id)
 
-    return render_template('post_details.html', post=cur_post, user=cur_user)
+    prev = request.args.get('prev')
 
-''' HANDLES CANCEL EDIT DELETE BUTTONS '''
-@app.route('/posts/<int:post_id>', methods=['POST'])
-def handle_btns(post_id):
-    cur_post = Post.query.get_or_404(post_id)
-    cur_user = User.query.get_or_404(cur_post.user_id)
-
-    if request.form.get('cancel'):
-        return redirect(f'/users/{cur_user.id}')
-    
-    elif request.form.get('edit'):
-        return redirect(f'/posts/{post_id}/edit')
-
-    elif request.form.get('delete'):
-        Post.query.filter(Post.id == f'{post_id}').delete()
-        db.session.commit()
-        return redirect(f'/users/{cur_user.id}')
-    
-    return redirect(f'/posts/{post_id}')
-
-''' REDIRECTS TO CORRECT PREVIOUS PAGE, HOME PAGE OR USER DETAILS'''
-@app.route('/posts/<int:post_id>/2', methods=['GET', 'POST'])
-def handle_previous_page(post_id):
     if request.method == 'POST':
         if request.form.get('cancel'):
-            return redirect(f'/')
+            if request.args.get('prev') == 'user':     
+                return redirect(f'/users/{cur_user.id}')
+            
+            if request.args.get('prev') == 'home': 
+                return redirect('/')
+            
+            if request.args.get('prev') == 'edit':
+                return redirect(f'/posts/{cur_post.id}/edit')
+            
+            # ADD TAG CANCEL REDIRECT
+            
+            cur_tag = Tag.query.filter(Tag.name == prev).first()
+            return redirect(f'/tags/{cur_tag.id}')
         
         elif request.form.get('edit'):
+            if request.args.get('prev') == 'home':
+                return redirect(f'/posts/{post_id}/edit?prev=home')
+            elif request.args.get('prev') == 'user':
+                return redirect(f'/posts/{post_id}/edit?prev=user')
             return redirect(f'/posts/{post_id}/edit')
 
         elif request.form.get('delete'):
             Post.query.filter(Post.id == f'{post_id}').delete()
             db.session.commit()
-            return redirect(f'/')
-    if request.method == 'GET':
-        cur_post = Post.query.get_or_404(post_id)
-        cur_user = User.query.get_or_404(cur_post.user_id)
+            return redirect(f'/users/{cur_user.id}')
 
-        return render_template('post_details_home.html', post=cur_post, user=cur_user)
+        return redirect(f'/posts/{post_id}')
+    
+    if request.method == 'GET':    
+        return render_template('post_details.html', post=cur_post, user=cur_user, prev=prev)
 
-''' SHOWS EDIT POST FORM '''
-@app.route('/posts/<int:post_id>/edit')
-def edit_post(post_id):
+''' SHOWS/HANDLES EDIT POST FORM '''
+@app.route('/posts/<int:post_id>/edit', methods=['GET', 'POST'])
+def handle_user_edit_post(post_id):
     cur_post = Post.query.get_or_404(post_id)
+    prev = request.args.get('prev')
 
-    return render_template('edit_post.html', p=cur_post)
+    if request.method == 'POST':
+        if request.form.get('cancel'):
+            if request.args.get('prev') == 'home':
+                return redirect(f'/posts/{post_id}?prev=home')
+            elif prev == 'user': 
+                return redirect(f'/posts/{post_id}?prev=user')
+            return redirect(f'/posts/{post_id}?prev=edit')
+        elif request.form.get('update'):
+            cur_post.title = request.form['title']
+            cur_post.content = request.form['content']
 
-''' HANDLES EDIT FORM & REDIRECTS TO POST DETAILS '''
-@app.route('/posts/<int:post_id>/edit', methods=['POST'])
-def handle_edit_post(post_id):
-    p = Post.query.get_or_404(post_id)
+            db.session.commit()
 
-    if request.form.get('cancel'):
-        return redirect(f'/posts/{post_id}')
-    elif request.form.get('update'):
-        p.title = request.form['title']
-        p.content = request.form['content']
-
-        db.session.commit()
-
-        return redirect(f'/posts/{post_id}')
-    else:
-        flash('Could not update')
-    return redirect(f'/posts/{post_id}/edit')
+            return redirect(f'/posts/{post_id}?prev=edit')
+        else:
+            flash('Could not update')
+        return redirect(f'/posts/{post_id}/edit')
+    if request.method == 'GET':
+        return render_template('edit_post.html', p=cur_post, prev=prev)    
 
 # TAGS
 ''' SHOWS ALL TAGS '''
@@ -220,13 +217,15 @@ def handle_new_tag_form():
             db.session.commit()
 
             return redirect(f'/tags/{new_tag.id}')
+        
     elif request.method == 'GET':
         return render_template('add_tag.html')
 
-    return redirect('/tags/new')
 
 ''' SHOWS SPECIFIC TAG DETAILS '''
 @app.route('/tags/<int:tag_id>', methods=['GET', 'POST'])
+
+# ADD TAG DETAILS MULTIPLE CANCEL REDIRECTS
 def tag_details(tag_id):
     if request.method == 'POST':
         if request.form.get('cancel'):
@@ -243,8 +242,6 @@ def tag_details(tag_id):
     elif request.method == 'GET':
         tag = Tag.query.get(tag_id)
         return render_template('tag_details.html', tag=tag)
-    
-    return render_template('/tags/<int:tag_id>')
 
 ''' EDIT TAG, HANDLE CANCEL/UPDATE BTNS '''
 @app.route('/tags/<int:tag_id>/edit', methods=['GET', 'POST'])
@@ -252,7 +249,7 @@ def edit_tag(tag_id):
     t = Tag.query.get_or_404(tag_id)
     if request.method == 'POST':
         if request.form.get('cancel'):
-            return redirect('/tags')
+            return redirect(f'/tags/{tag_id}')
         elif request.form.get('update'):
             t.name = request.form['name']
             db.session.commit()
@@ -261,5 +258,4 @@ def edit_tag(tag_id):
     elif request.method == 'GET':
         tag = Tag.query.get_or_404(tag_id)
         return render_template('edit_tag.html', tag=tag)
-    else:
-        return redirect(f'/tags/{tag_id}/edit')
+

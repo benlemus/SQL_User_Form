@@ -18,12 +18,14 @@
       </form>
     </div>
 
-    <div id="postsContainer">
+    <div class="posts_container" id="posts_container_user_details">
       <h3>Posts:</h3>
       {% if posts %}
-      <ul id="postsList">
+      <ul>
         {% for post in posts %}
-        <li><a href="/posts/{{post.id}}">{{post.title}}</a></li>
+        <li>
+          <a href="/posts/{{post.id}}?prev=user">{{post.title}}</a>
+        </li>
         {% endfor %}
       </ul>
       {% else %}

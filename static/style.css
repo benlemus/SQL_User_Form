@@ -40,7 +40,7 @@ nav ol {
   height: 50px;
 }
 
-nav li {
+.nav_item {
   width: 150px;
   font-size: 30px;
   padding-top: 7px;
@@ -48,29 +48,13 @@ nav li {
   height: 100%;
 }
 
-nav li:nth-child(1):hover {
-  background-image: linear-gradient(
-    to right,
-    rgba(255, 0, 0, 0),
-    rgba(148, 148, 148, 0.5)
-  );
-}
-
-nav li:nth-child(2):hover {
-  background-color: rgba(148, 148, 148, 0.5);
-}
-
-nav li:nth-child(3):hover {
-  background-image: linear-gradient(
-    to left,
-    rgba(255, 0, 0, 0),
-    rgba(148, 148, 148, 0.5)
-  );
-}
-
-nav ol a {
+.nav_item a {
   text-decoration: none;
   color: white;
+}
+
+.nav_item a:hover {
+  text-decoration: underline;
 }
 
 .navbar_center {
@@ -216,6 +200,10 @@ nav ol a {
   color: white;
 }
 
+.author_name {
+  color: white;
+}
+
 .post p {
   margin-top: auto;
   font-size: 20px;
@@ -266,26 +254,26 @@ nav ol a {
   font-size: 50px;
 }
 
-#postsContainer {
+#posts_container_user_details {
   padding-top: 40px;
 }
 
-#postsContainer h3 {
+#posts_container_user_details h3 {
   font-size: 30px;
   padding-bottom: 10px;
 }
 
-#postsContainer a {
+#posts_container_user_details a {
   color: white;
   font-size: 20px;
 }
 
-#postsContainer ul {
+#posts_container_user_details ul {
   margin-left: 30px;
   padding-bottom: 10px;
 }
 
-#postsContainer h4 {
+#posts_container_user_details h4 {
   padding-bottom: 10px;
 }
 
@@ -296,12 +284,29 @@ nav ol a {
 /***********************/
 /* ADD POST PAGE */
 /***********************/
+
+#checkbox_container {
+  text-align: left;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.checkbox_container_item {
+  margin-bottom: 6px;
+}
+
+.checkbox_container_item input[type="checkbox"] {
+  margin-right: 8px;
+}
+
 #add_btn_add_post {
   margin-right: 5px;
+  margin-left: auto;
 }
 
 #cancel_btn_add_post {
   margin-left: 5px;
+  margin-right: auto;
 }
 
 /***********************/
@@ -380,6 +385,17 @@ nav ol a {
 /***********************/
 /* TAG DETAILS PAGE */
 /***********************/
+
+#tag_details_page {
+  color: white;
+}
+#tag_details_title {
+  font-size: 50px;
+  padding-top: 140px;
+  color: white;
+  padding-left: 10px;
+}
+
 #cancel_btn_tag_details {
   margin-top: 20px;
   font-size: 15px;
@@ -392,13 +408,35 @@ nav ol a {
   margin-right: 10px;
 }
 
+#posts_container_tag_details {
+  padding-top: 40px;
+  padding-left: 10px;
+}
+
+#posts_container_tag_details h3 {
+  font-size: 30px;
+  padding-bottom: 10px;
+}
+
+#posts_container_tag_details ul {
+  margin-left: 30px;
+  padding-bottom: 10px;
+}
+
+#posts_container_tag_details a {
+  color: white;
+  font-size: 20px;
+}
+
 /***********************/
 /* EDIT TAG PAGE */
 /***********************/
 #update_btn_edit_tag {
+  margin-left: auto;
   margin-right: 5px;
 }
 
 #cancel_btn_edit_tag {
+  margin-right: auto;
   margin-left: 5px;
 }

@@ -5,7 +5,7 @@
 <h1 class="page_title">Edit Post {{p.title}}</h1>
 
 <div class="page_container">
-  <form action="/posts/{{p.id}}/edit" method="post" class="form">
+  <form action="/posts/{{p.id}}/edit?prev={{prev}}" method="post" class="form">
     <label for="title" class="form_label">Title:</label>
     <input
       type="text"
@@ -16,7 +16,7 @@
       class="form_input"
     />
 
-    <label for="content" class="form_lebel">Content:</label>
+    <label for="content" class="form_label">Content:</label>
     <input
       type="text"
       id="content"

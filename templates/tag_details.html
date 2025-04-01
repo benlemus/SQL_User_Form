@@ -2,49 +2,54 @@
 
 <!-- content -->
 {% block content %}
-<h1 class="page_title">{{tag.name}}</h1>
+<h1 id="tag_details_title">{{tag.name}}</h1>
 
-<div class="page_container">
-  <ul>
-    {% for post in tag.posts %}
-    <li class="ul_li">
-      <a href="/posts/{{post.id}}" class="ul_a">{{post.title}}</a>
-    </li>
-    {% endfor %}
-  </ul>
+<div id="tag_details_page">
+  <div class="posts_container" id="posts_container_tag_details">
+    <h3>Posts:</h3>
+    {% if tag.posts %}
+    <ul id="tag_details_posts_ul">
+      {% for post in tag.posts %}
+      <li><a href="/posts/{{post.id}}?prev={{tag.name}}">{{post.title}}</a></li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <h4>No posts yet.</h4>
+    {% endif %}
 
-  <form action="/tags/{{tag.id}}" method="post">
-    <div class="btns_container">
-      <button
-        class="cancel_btn"
-        id="cancel_btn_tag_details"
-        name="cancel"
-        type="submit"
-        value="1"
-      >
-        Cancel
-      </button>
-      <button
-        class="edit_btn"
-        id="edit_btn_tag"
-        type="submit"
-        name="edit"
-        value="2"
-      >
-        Edit
-      </button>
+    <form action="/tags/{{tag.id}}?prev={{prev}}" method="post">
+      <div class="btns_container" id="tag_details_btns">
+        <button
+          class="cancel_btn"
+          id="cancel_btn_tag_details"
+          name="cancel"
+          type="submit"
+          value="1"
+        >
+          Cancel
+        </button>
+        <button
+          class="edit_btn"
+          id="edit_btn_tag"
+          type="submit"
+          name="edit"
+          value="2"
+        >
+          Edit
+        </button>
 
-      <button
-        class="delete_btn"
-        type="submit"
-        name="delete"
-        id="delete_btn_tag"
-        value="3"
-      >
-        Delete
-      </button>
-    </div>
-  </form>
+        <button
+          class="delete_btn"
+          type="submit"
+          name="delete"
+          id="delete_btn_tag"
+          value="3"
+        >
+          Delete
+        </button>
+      </div>
+    </form>
+  </div>
+
+  {% endblock %}
 </div>
-
-{% endblock %}

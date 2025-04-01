@@ -9,11 +9,24 @@
   <h4 id="post_detail_username">
     <i
       >by
-      <a href="users/{{user.id}}" class="name_details">{{user.full_name}}</a></i
+      <a href="/users/{{user.id}}" class="name_details"
+        >{{user.full_name}}</a
+      ></i
     >
   </h4>
 
-  <form action="/posts/{{post.id}}" method="post">
+  <div class="post_detail_tags">
+    <h3>Tags:</h3>
+    <ul>
+      {% for tag in post.tags %}
+      <li><a href="/tags/{{tag.id}}">{{tag.name}}</a></li>
+
+      {% endfor %}
+    </ul>
+  </div>
+
+  {% if prev != None %}
+  <form action="/posts/{{post.id}}?prev={{prev}}" method="post">
     <button
       type="submit"
       name="cancel"
@@ -23,6 +36,9 @@
     >
       Cancel
     </button>
+    {% else %}
+    <form action="/posts/{{post.id}}?prev={{prev}}" method="post">
+    {% endif %}
     <button
       type="submit"
       name="edit"

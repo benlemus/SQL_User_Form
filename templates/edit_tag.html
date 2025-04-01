@@ -7,12 +7,18 @@
 <div class="page_container">
   <form action="/tags/{{tag.id}}/edit" class="form" method="post">
     <label for="tag_name" class="form_label">Name</label>
-    <input type="text" name="name" id="tag_name" class="form_input" />
+    <input
+      type="text"
+      name="name"
+      id="tag_name"
+      class="form_input"
+      value="{{tag.name}}"
+    />
 
     <div class="btns_container">
       <button
         class="update_btn"
-        id="update_btn"
+        id="update_btn_edit_tag"
         type="submit"
         value="1"
         name="update"
@@ -21,7 +27,7 @@
       </button>
       <button
         class="cancel_btn"
-        id="cancel_btn_add_tag"
+        id="cancel_btn_edit_tag"
         type="submit"
         value="2"
         name="cancel"

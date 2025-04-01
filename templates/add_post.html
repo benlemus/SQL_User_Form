@@ -10,7 +10,23 @@
     <input type="text" id="title" name="title" />
 
     <label for="content">Content:</label>
-    <input type="text" id="content" name="content" />
+    <textarea name="content" id="content" rows="4" cols="50"></textarea>
+    <!-- <input type="text" id="content" name="content" /> -->
+
+    <div id="checkbox_container">
+      {% for tag in tags %}
+      <div class="checkbox_container_item">
+        <input
+          type="checkbox"
+          name="checkbox"
+          id="checkbox_{{loop.index}}"
+          value="{{ tag.name }}"
+          class="checkbox_tag"
+        />
+        <label for="checkbox_{{loop.index}}">{{tag.name}}</label>
+      </div>
+      {% endfor %}
+    </div>
 
     <div class="btns_container">
       <button
@@ -34,8 +50,4 @@
     </div>
   </form>
 </div>
-
-{% with messages = get_flashed_messages() %} {% if messages %} {% for message in
-messages %}
-<p style="color: red">{{ message }}</p>
-{% endfor %} {% endif %} {% endwith %} {% endblock %}
+{% endblock %}
