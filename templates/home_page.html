@@ -21,6 +21,15 @@
         </a>
         on {{ post.created_at | format_datetime}}
       </h4>
+
+      <div class="post_detail_tags" id="post_detail_tags_home">
+        <h3>Tags:</h3>
+        {% if post.tags %} {% for tag in post.tags %}
+        <a href="/tags/{{tag.id}}" class="tag">{{tag.name}}</a>
+        {% endfor %} {% else %}
+        <h4>No tags yet.</h4>
+        {% endif %}
+      </div>
     </div>
     {% else %}
     <p id="no_post_title">no posts yet</p>

@@ -15,6 +15,33 @@
       value="{{tag.name}}"
     />
 
+    <div id="checkbox_container">
+      {% for post in p %}
+      <div class="checkbox_container_item">
+        {% if post in tag.posts %}
+        <input
+          type="checkbox"
+          name="checkbox"
+          id="checkbox_{{loop.index}}"
+          value="{{ post.title }}"
+          class="checkbox_tag"
+          checked
+        />
+        <label for="checkbox_{{loop.index}}">{{post.title}}</label>
+        {% else %}
+        <input
+          type="checkbox"
+          name="checkbox"
+          id="checkbox_{{loop.index}}"
+          value="{{ post.title }}"
+          class="checkbox_tag"
+        />
+        <label for="checkbox_{{loop.index}}">{{post.title}}</label>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
     <div class="btns_container">
       <button
         class="update_btn"

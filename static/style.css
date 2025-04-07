@@ -1,10 +1,15 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: "Winky Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
 }
 
 body {
-  background-color: rgb(12, 12, 12);
+  background-color: rgb(14, 14, 14);
+  /* background-color: rgb(19, 19, 19); */
   overflow-y: scroll;
 }
 
@@ -22,10 +27,10 @@ img {
 /***********************/
 
 #navbar {
-  background-color: rgb(12, 12, 12);
+  background-color: rgb(14, 14, 14);
   padding-bottom: 20px;
   padding-top: 10px;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid rgb(54, 54, 54);
   position: fixed;
   width: 100%;
 }
@@ -182,7 +187,7 @@ nav ol {
 /* HOME PAGE */
 /***********************/
 .post {
-  outline: 1px solid white;
+  outline: 1px solid rgb(54, 54, 54);
   color: white;
   width: 45vw;
   text-align: center;
@@ -195,7 +200,6 @@ nav ol {
 #home_page_title {
   font-size: 40px;
   padding-top: 10px;
-  padding-bottom: 10px;
   text-decoration: underline dashed;
   color: white;
 }
@@ -230,6 +234,7 @@ nav ol {
   display: flex;
   justify-content: center;
   font-size: 30px;
+  padding-bottom: 15px;
 }
 
 #no_post_title {
@@ -336,6 +341,14 @@ nav ol {
   text-decoration: none;
 }
 
+#post_detail_username {
+  margin-top: 10px;
+}
+
+#post_detail_content {
+  margin-top: 10px;
+}
+
 /***********************/
 /* EDIT POST PAGE */
 /***********************/
@@ -369,6 +382,34 @@ nav ol {
 #cancel_btn_edit_user {
   margin-right: 5px;
   margin-left: auto;
+}
+
+/* tags */
+
+.post_detail_tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 17px;
+}
+#post_detail_tags_home {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 25px;
+}
+.post_detail_tags h3 {
+  margin: 0;
+}
+
+.tag {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  background-color: rgb(0, 110, 255);
+  padding: 1px 6px;
+  padding-bottom: 3px;
+  border-radius: 4px;
+  font-size: 1.1em;
 }
 
 /***********************/

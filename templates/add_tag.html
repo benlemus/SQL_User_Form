@@ -9,6 +9,21 @@
     <label for="tag_name" class="form_label">Name</label>
     <input type="text" name="name" id="tag_name" class="form_input" />
 
+    <div id="checkbox_container">
+      {% for post in p %}
+      <div class="checkbox_container_item">
+        <input
+          type="checkbox"
+          name="checkbox"
+          id="checkbox_{{loop.index}}"
+          value="{{ post.title }}"
+          class="checkbox_tag"
+        />
+        <label for="checkbox_{{loop.index}}">{{post.title}}</label>
+      </div>
+      {% endfor %}
+    </div>
+
     <div class="btns_container">
       <button
         class="add_btn"

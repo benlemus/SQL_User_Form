@@ -187,14 +187,24 @@ def handle_user_edit_post(post_id):
             cur_post.title = request.form['title']
             cur_post.content = request.form['content']
 
+            tags = request.form.getlist('checkbox')
+            PostTag.query.filter(PostTag.post_id == post_id).delete()
+
             db.session.commit()
 
+            for tag in tags:
+                t = Tag.query.filter(Tag.name == tag).first()
+                new_post_tag = PostTag(post_id=post_id, tag_id=t.id)
+                db.session.add(new_post_tag)
+                db.session.commit()           
             return redirect(f'/posts/{post_id}?prev=edit')
         else:
             flash('Could not update')
         return redirect(f'/posts/{post_id}/edit')
     if request.method == 'GET':
-        return render_template('edit_post.html', p=cur_post, prev=prev)    
+        tags = Tag.get_all_tags()
+        checked_tags = PostTag.query.filter(PostTag.post_id == post_id).all() 
+        return render_template('edit_post.html', p=cur_post, prev=prev, tags=tags, checked_tags=checked_tags)    
 
 # TAGS
 ''' SHOWS ALL TAGS '''
@@ -216,13 +226,21 @@ def handle_new_tag_form():
             db.session.add(new_tag)
             db.session.commit()
 
+            posts = request.form.getlist('checkbox')
+            for post in posts:
+                cur_p = Post.query.filter(Post.title == post).first()
+                new_post_tag = PostTag(post_id=cur_p.id, tag_id=new_tag.id)
+
+                db.session.add(new_post_tag)
+                db.session.commit()
             return redirect(f'/tags/{new_tag.id}')
         
     elif request.method == 'GET':
-        return render_template('add_tag.html')
+        posts = Post.query.all()
+        return render_template('add_tag.html', p=posts)
 
 
-''' SHOWS SPECIFIC TAG DETAILS '''
+''' SHOWS TAG DETAILS '''
 @app.route('/tags/<int:tag_id>', methods=['GET', 'POST'])
 
 # ADD TAG DETAILS MULTIPLE CANCEL REDIRECTS
@@ -252,10 +270,22 @@ def edit_tag(tag_id):
             return redirect(f'/tags/{tag_id}')
         elif request.form.get('update'):
             t.name = request.form['name']
+
+            PostTag.query.filter(PostTag.tag_id == tag_id).delete()
+
+            posts = request.form.getlist('checkbox')
+            for post in posts:
+                p = Post.query.filter(Post.title == post).first()
+                new_post_tag = PostTag(post_id=p.id, tag_id=tag_id)
+
+                db.session.add(new_post_tag)
+                db.session.commit()
+
             db.session.commit()
             return redirect(f'/tags/{tag_id}')
 
     elif request.method == 'GET':
         tag = Tag.query.get_or_404(tag_id)
-        return render_template('edit_tag.html', tag=tag)
+        posts = Post.query.all() 
+        return render_template('edit_tag.html', tag=tag, p=posts)
 

@@ -17,14 +17,36 @@
     />
 
     <label for="content" class="form_label">Content:</label>
-    <input
-      type="text"
-      id="content"
-      name="content"
-      value="{{p.content}}"
-      required
-      class="form_input"
-    />
+    <textarea name="content" id="content" rows="4" cols="50">
+{{p.content}}</textarea
+    >
+
+    <div id="checkbox_container">
+      {% for tag in tags %}
+      <div class="checkbox_container_item">
+        {% if tag in p.tags %}
+        <input
+          type="checkbox"
+          name="checkbox"
+          id="checkbox_{{loop.index}}"
+          value="{{ tag.name }}"
+          class="checkbox_tag"
+          checked
+        />
+        <label for="checkbox_{{loop.index}}">{{tag.name}}</label>
+        {% else %}
+        <input
+          type="checkbox"
+          name="checkbox"
+          id="checkbox_{{loop.index}}"
+          value="{{ tag.name }}"
+          class="checkbox_tag"
+        />
+        <label for="checkbox_{{loop.index}}">{{tag.name}}</label>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
 
     <div class="btns_container">
       <button
