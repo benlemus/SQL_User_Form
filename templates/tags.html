@@ -9,7 +9,9 @@
     <ul>
       {% for tag in tags %}
       <li class="ul_li">
-        <a href="/tags/{{tag.id}}" class="ul_a">{{tag.name}}</a>
+        <a href="/tags/{{tag.id}}?prev=tags&past={{prev}}" class="ul_a"
+          >{{tag.name}}</a
+        >
       </li>
       {% endfor %}
     </ul>

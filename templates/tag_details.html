@@ -16,8 +16,7 @@
     {% else %}
     <h4>No posts yet.</h4>
     {% endif %}
-
-    <form action="/tags/{{tag.id}}?prev={{prev}}" method="post">
+    <form action="/tags/{{tag.id}}?prev={{prev}}&past={{past}}" method="post">
       <div class="btns_container" id="tag_details_btns">
         <button
           class="cancel_btn"

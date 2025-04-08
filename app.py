@@ -30,8 +30,7 @@ def format_datetime(value):
 @app.route('/')
 def home_page():
     posts = Post.get_recent_posts()
-    prev = 'home'
-    return render_template('home_page.html', posts=posts, prev=prev)
+    return render_template('home_page.html', posts=posts, prev='home')
 
 
 # USERS
@@ -148,9 +147,12 @@ def post_details(post_id):
             if request.args.get('prev') == 'edit':
                 return redirect(f'/posts/{cur_post.id}/edit')
             
-            # ADD TAG CANCEL REDIRECT
+            if request.args.get('prev') == cur_user.first_name:
+                return redirect(f'/users/{cur_user.id}')
             
             cur_tag = Tag.query.filter(Tag.name == prev).first()
+            if cur_tag == None:
+                return redirect('/tags')
             return redirect(f'/tags/{cur_tag.id}')
         
         elif request.form.get('edit'):
@@ -211,7 +213,9 @@ def handle_user_edit_post(post_id):
 @app.route('/tags')
 def show_tags():
     tags = Tag.get_all_tags()
-    return render_template('tags.html', tags=tags)
+    prev = request.args.get('prev')
+
+    return render_template('tags.html', tags=tags, prev=prev)
 
 ''' SHOWS NEW TAG FORM AND HANDLES NEW TAG FORM '''
 @app.route('/tags/new', methods=['GET','POST'])
@@ -242,12 +246,28 @@ def handle_new_tag_form():
 
 ''' SHOWS TAG DETAILS '''
 @app.route('/tags/<int:tag_id>', methods=['GET', 'POST'])
-
-# ADD TAG DETAILS MULTIPLE CANCEL REDIRECTS
 def tag_details(tag_id):
+    prev = request.args.get('prev') #walks
+    past = request.args.get('past') #home
+
     if request.method == 'POST':
+
+        if request.args.get('prev') != 'home' and request.args.get('prev') != 'tags':
+            post = Post.query.filter(Post.title == prev).first()
+            tag = Tag.query.filter(Tag.id == tag_id).first()
+            user = User.query.filter(User.id == post.user_id).first()
+
         if request.form.get('cancel'):
-            return redirect(f'/tags')
+            if request.args.get('prev') == 'home':
+                return redirect(f'/')
+            elif request.args.get('prev') == 'tags':
+                return redirect(f'/tags?prev={past}')
+            elif past != None:
+                return redirect(f'/posts/{post.id}?prev={past}')
+            elif prev == post.title and past == None: 
+                return redirect(f'/posts/{post.id}?prev={user.first_name}')
+            return redirect(f'/tags/{tag_id}?prev=edit')
+
         
         elif request.form.get('edit'):
             return redirect(f'/tags/{tag_id}/edit')
@@ -258,8 +278,8 @@ def tag_details(tag_id):
             return redirect('/tags')
         
     elif request.method == 'GET':
-        tag = Tag.query.get(tag_id)
-        return render_template('tag_details.html', tag=tag)
+        tag = Tag.query.filter(Tag.id == tag_id).first()
+        return render_template('tag_details.html', tag=tag, prev=prev, past=past)
 
 ''' EDIT TAG, HANDLE CANCEL/UPDATE BTNS '''
 @app.route('/tags/<int:tag_id>/edit', methods=['GET', 'POST'])
